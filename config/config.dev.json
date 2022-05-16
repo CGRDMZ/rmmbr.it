@@ -1,0 +1,13 @@
+{
+    "Environment": "Dev",
+    "Database": {
+        "ConnectionString": "postgres://postgres:postgres@localhost:5432/rmmbrit?sslmode=disable"
+    },
+    "Server": {
+        "Port": "3000"
+    },
+    "Jwt": {
+        "Secret": "secret",
+        "Expiration": "100"
+    }
+}

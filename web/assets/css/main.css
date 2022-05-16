@@ -1,0 +1,84 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: rgb(218, 218, 218);
+}
+
+.info-container {
+  min-width: 640px;
+  background-color: dodgerblue;
+  border-radius: 36px;
+  padding: 10px 20px;
+}
+
+.table-container {
+  margin: 48px 0;
+}
+
+.go-icon {
+    border-radius: 100%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between !important;
+}
+
+.full-width {
+  width: 100% !important;
+}
+
+.full-height {
+  height: 100% !important;
+}
+
+.flex-center {
+  justify-content: center;
+  align-items: center;
+}
+
+.primary-text {
+  color: rgb(238, 255, 110);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.secondary-text {
+  color: rgb(255, 255, 255);
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.text-huge {
+  font-size: 64px;
+}
+
+.text-semibold {
+  font-weight: 600;
+}
+
+.text-thin {
+  font-weight: 100;
+}
+
+.line-height {
+  line-height: 1;
+}
+
+
