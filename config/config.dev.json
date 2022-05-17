@@ -8,6 +8,6 @@
     },
     "Jwt": {
         "Secret": "secret",
-        "Expiration": "100"
+        "Expiration": 100
     }
 }

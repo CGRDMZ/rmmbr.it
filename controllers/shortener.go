@@ -57,7 +57,7 @@ type CreateUrlMapRequest struct {
 
 func (sc *ShortenerController) AddNewUrlMap(c *gin.Context) {
 	var rb CreateUrlMapRequest
-	err := c.Bind(&rb)
+	err := c.ShouldBind(&rb)
 	if err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return

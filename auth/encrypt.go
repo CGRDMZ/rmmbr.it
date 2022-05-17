@@ -7,7 +7,7 @@ import (
 )
 
 func GenerateHashFrom(password string) string {
-	b, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MaxCost)
+	b, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.MinCost)
 	if err != nil {
 		panic("Something unexpected happened while hashing the password.")
 	}

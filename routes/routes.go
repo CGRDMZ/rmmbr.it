@@ -4,11 +4,9 @@ import (
 	"context"
 	"fmt"
 	"os"
-
 	"github.com/CGRDMZ/rmmbrit-api/config"
 	"github.com/CGRDMZ/rmmbrit-api/controllers"
 	"github.com/CGRDMZ/rmmbrit-api/middlewares"
-	"github.com/CGRDMZ/rmmbrit-api/services"
 	"github.com/gin-gonic/gin"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
@@ -21,15 +19,19 @@ func RegisterRoutes(router *gin.Engine) {
 		os.Exit(1)
 	}
 
-	sc := &controllers.ShortenerController{
-		Ss: &services.ShortenerService{
-			Db: p,
-		},
+	cf := &controllers.ControllerFactory{
+		Db: p,
 	}
 
 	router.Use(middlewares.ErrorHandler)
 
+	uc := cf.CreateUserController()
+	router.POST("/signup", uc.CreateUser)
+	router.POST("/login", uc.Login)
+	
 	// Url shortener endpoints
+	sc := cf.CreateShortenerController()
+
 	router.GET("/:id", sc.RedirectToOriginalUrl)
 	router.GET("/info/:id", sc.GetUrlMapInfo)
 	router.POST("/add", sc.AddNewUrlMap)

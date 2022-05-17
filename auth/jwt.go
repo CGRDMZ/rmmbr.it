@@ -1,7 +1,8 @@
 package auth
 
 import (
-	"errors"
+	"fmt"
+	"log"
 	"time"
 
 	"github.com/CGRDMZ/rmmbrit-api/config"
@@ -9,13 +10,13 @@ import (
 )
 
 type JwtPayload struct {
-	UserId string `json:"uid,omitempty"`
+	UserId uint `json:"uid,omitempty"`
 	jwt.RegisteredClaims
 }
 
 type JwtService struct{}
 
-func (*JwtService) GenerateToken(id string) (string, error) {
+func (*JwtService) GenerateToken(id uint) (string, error) {
 
 	now := time.Now()
 
@@ -30,10 +31,10 @@ func (*JwtService) GenerateToken(id string) (string, error) {
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
-
-	signedString, err := token.SignedString(config.Conf.JwtSecret)
+	log.Println(config.Conf.JwtSecret)
+	signedString, err := token.SignedString([]byte(config.Conf.JwtSecret))
 	if err != nil {
-		return "", errors.New("something happened while signing the token")
+		return "", fmt.Errorf("something happened while signing the token: %w", err)
 	}
 
 	return signedString, nil

@@ -11,10 +11,10 @@ type CustomError struct {
 	Detail     string       `json:"detail"`
 	StatusCode int          `json:"statusCode"`
 	OccuredAt  time.Time    `json:"occuredAt"`
-	Payload    *interface{} `json:"payload,omitempty"`
+	Payload    interface{} `json:"payload,omitempty"`
 }
 
-func NewCustomError(title, detail string, code int, payload *interface{}) *CustomError {
+func NewCustomError(title, detail string, code int, payload interface{}) *CustomError {
 	return &CustomError{
 		Title:     title,
 		Detail:    detail,
@@ -30,6 +30,7 @@ func (ce CustomError) Error() string {
 
 var (
 	ErrCommonNotFound = NewCustomError("the requested resource is not found.", "there were no resorce in the database with the given parameters.", http.StatusNotFound, nil)
+	ErrLoginFailed = NewCustomError("login failed.", "the given credentials are not valid.", http.StatusUnauthorized, nil)
 )
 
 func NotFoundErr(resourceName, id string) *CustomError {

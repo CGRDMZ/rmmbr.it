@@ -25,11 +25,13 @@ func ErrorHandler(c *gin.Context) {
 			return
 		}
 
-		c.JSON(-1, ce)
+		c.JSON(ce.StatusCode, ce)
+		c.Abort()
 		return
 	}
 
 	errInternal := errors.NewCustomError("Something unexpected happened. Hmm...", err.Error(), 500, nil)
 	c.JSON(500, errInternal)
+	c.Abort()
 
 }
