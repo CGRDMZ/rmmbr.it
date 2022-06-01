@@ -31,8 +31,9 @@ func RegisterRoutes(router *gin.Engine) {
 	
 	// Url shortener endpoints
 	sc := cf.CreateShortenerController()
-
+	router.GET("/", sc.Index)
 	router.GET("/:id", sc.RedirectToOriginalUrl)
+	router.GET("/info/", sc.GetAllUrlMapInfo)
 	router.GET("/info/:id", sc.GetUrlMapInfo)
 	router.POST("/add", sc.AddNewUrlMap)
 	// -----------------------

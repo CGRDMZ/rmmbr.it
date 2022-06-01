@@ -1,4 +1,4 @@
-e.PHONY: dev migrate-up migrate-down create-migration install-deps
+.PHONY: dev migrate-up migrate-down create-migration install-deps
 
 dev:
 	@go run main.go

@@ -3,6 +3,7 @@ package services
 import (
 	"context"
 	"fmt"
+	"net/url"
 	"strings"
 
 	"github.com/CGRDMZ/rmmbrit-api/models"
@@ -15,8 +16,8 @@ type ShortenerService struct {
 	Db *pgxpool.Pool
 }
 
-
 func (ss *ShortenerService) CreateNewUrlMap(ctx context.Context, shortUrl, longUrl string) (*models.UrlMap, error) {
+	var err error
 	// if no short url is provided, generate one
 	if strings.Trim(shortUrl, " ") == "" {
 		s, err := gonanoid.New()
@@ -24,6 +25,13 @@ func (ss *ShortenerService) CreateNewUrlMap(ctx context.Context, shortUrl, longU
 			return nil, fmt.Errorf("something happened while generating id: %w", err)
 		}
 		shortUrl = s
+	}
+
+	// parse the long url
+	longUrl = strings.Trim(longUrl, " ")
+	_, err = url.ParseRequestURI(longUrl)
+	if err != nil {
+		return nil, fmt.Errorf("something happened while parsing the long url: %w", err)
 	}
 
 	// TODO: refactor this to a repository ------
@@ -65,6 +73,26 @@ func (ss *ShortenerService) GetUrlMapInfoAndIncrementVisit(ctx context.Context, 
 		ss.incrementVisited(context.Background(), shortUrl)
 	}()
 	return um, err
+}
+
+func (ss *ShortenerService) GetAllUrlMaps(ctx context.Context) ([]*models.UrlMap, error) {
+	var urlMaps []*models.UrlMap
+	rows, err := ss.Db.Query(ctx, "SELECT id, short_url, long_url, visited_count, created_at, updated_at FROM url_map ORDER BY id ASC")
+	if err != nil {
+		return nil, fmt.Errorf("something wrong happened while getting all 'url maps': %w", err)
+	}
+
+	for rows.Next() {
+		var um models.UrlMap
+		err := rows.Scan(&um.Id, &um.ShortUrl, &um.LongUrl, &um.VisitedCounter, &um.CreatedAt, &um.UpdatedAt)
+		if err != nil {
+			return nil, fmt.Errorf("something wrong happened while scanning 'url maps': %w", err)
+		}
+
+		urlMaps = append(urlMaps, &um)
+	}
+
+	return urlMaps, nil
 }
 
 // TODO: this method will go to a repository

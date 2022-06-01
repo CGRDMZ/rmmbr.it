@@ -1,0 +1,26 @@
+{{template "top"}}
+<div class="container">
+    <div class="full-height flex flex-center">
+        <div class="row">
+            <h1 id="logo" class="center-align">rmmbr.it</h1>
+            <form action="add" method="post">
+                <div class="row">
+                    <div class="input-field col s12">
+                        <input autocomplete="off" id="shortUrl" name="shortUrl" type="text" class="validate">
+                        <label for="shortUrl">Short URL</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <input autocomplete="off" id="longUrl" name="longUrl" type="text" class="validate" required>
+                        <label for="longUrl">Long URL</label>
+                    </div>
+                    <div class="input-field col s12">
+                        <button class="btn waves-effect waves-light deep-purple darken-4" type="submit" name="action">Submit
+                            <i class="material-icons right">send</i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{{ template "bottom" }}

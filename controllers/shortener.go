@@ -12,6 +12,10 @@ type ShortenerController struct {
 	Ss *services.ShortenerService
 }
 
+func (sc *ShortenerController) Index(c *gin.Context) {
+	c.HTML(http.StatusOK, "index.html", nil)
+}
+
 func (sc *ShortenerController) RedirectToOriginalUrl(c *gin.Context) {
 
 	id := c.Param("id")
@@ -29,6 +33,17 @@ func (sc *ShortenerController) RedirectToOriginalUrl(c *gin.Context) {
 	c.Redirect(http.StatusFound, urlMap.LongUrl)
 }
 
+func (sc *ShortenerController) GetAllUrlMapInfo(c *gin.Context) {
+	urlMaps, err := sc.Ss.GetAllUrlMaps(c.Request.Context())
+	if err != nil {
+		c.Error(err)
+		c.Abort()
+		return
+	}
+
+	c.HTML(http.StatusOK, "url-list.html", urlMaps)
+}
+
 func (sc *ShortenerController) GetUrlMapInfo(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
@@ -38,11 +53,11 @@ func (sc *ShortenerController) GetUrlMapInfo(c *gin.Context) {
 
 	urlMap, err := sc.Ss.GetUrlMapInfo(c.Request.Context(), id)
 	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
+		c.Error(err)
 		return
 	}
 	if urlMap == nil {
-		c.AbortWithError(http.StatusNotFound, errors.NotFoundErr("Url Map", string(id)))
+		c.Error(errors.NotFoundErr("Url Map", string(id)))
 		return
 	}
 
@@ -68,5 +83,6 @@ func (sc *ShortenerController) AddNewUrlMap(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, urlMap)
+	c.Redirect(http.StatusFound, "/info/"+urlMap.ShortUrl)
 }
+

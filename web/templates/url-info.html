@@ -2,32 +2,36 @@
 <div class="flex flex-center full-width full-height">
     <div>
         <div class="">
-            <h1 class="text-center primary-text text-huge">Rmmbr.it</h1>
+            <h1 class="center-align text-huge" id="logo">rmmbr.it</h1>
         </div>
-        <div class="info-container flex flex-center space-between">
-          <h2 class="secondary-text text-thin line-height">{{.ShortUrl}}</h2>
+        <div class="info-container deep-purple lighten-2 flex flex-center space-between">
+          <h2>{{.ShortUrl}}</h2>
           <a href="/{{.ShortUrl}}">
-            <div class="go-icon primary-text">Go!</div>
+            <div><i class="material-icons" style="color:darkblue">arrow_forward</i></div>
           </a>
         </div>
         <div class="table-container">
-            <table class="full-width text-center">
-                <tr>
-                    <th>Id</th>
-                    <th>Short URL</th>
-                    <th>Long URL</th>
-                    <th>Hits</th>
-                    <th>Created At</th>
-                    <th>Updated At</th>
-                </tr>
-                <tr>
-                    <td>{{.Id}}</td>
-                    <td>{{.ShortUrl}}</td>
-                    <td>{{.LongUrl}}</td>
-                    <td>{{.VisitedCounter}}</td>
-                    <td>{{.CreatedAt.Format "Jan 02, 2006"}}</td>
-                    <td>{{.UpdatedAt}}</td>
-                </tr>
+            <table class="full-width centered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Short URL</th>
+                        <th>Long URL</th>
+                        <th>Hits</th>
+                        <th>Created At</th>
+                        <th>Updated At</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{.Id}}</td>
+                        <td>{{.ShortUrl}}</td>
+                        <td>{{.LongUrl}}</td>
+                        <td>{{.VisitedCounter}}</td>
+                        <td>{{.CreatedAt.Format "Jan 02, 2006" }}</td>
+                        <td>{{.UpdatedAt }}</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
     </div>

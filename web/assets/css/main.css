@@ -7,14 +7,25 @@
 }
 
 body {
-  background-color: rgb(218, 218, 218);
+}
+
+#logo {
+  font-family: 'Short Stack', cursive;
+}
+
+.table-container {
+  max-width: 640px;
 }
 
 .info-container {
   min-width: 640px;
-  background-color: dodgerblue;
   border-radius: 36px;
-  padding: 10px 20px;
+  padding: 20px 32px;
+}
+
+.info-container h2 {
+  font-size: 24px !important;
+  margin: auto 0;
 }
 
 .table-container {
@@ -34,6 +45,10 @@ body {
   display: flex;
 }
 
+.mx-auto {
+  margin: 0 auto;
+}
+
 .space-between {
   justify-content: space-between !important;
 }
@@ -51,18 +66,9 @@ body {
   align-items: center;
 }
 
-.primary-text {
-  color: rgb(238, 255, 110);
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
 .secondary-text {
   color: rgb(255, 255, 255);
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-}
-
-.text-center {
-  text-align: center !important;
 }
 
 .text-huge {
