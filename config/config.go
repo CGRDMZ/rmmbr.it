@@ -2,7 +2,7 @@ package config
 
 import (
 	"fmt"
-
+	"strings"
 	"github.com/spf13/viper"
 )
 
@@ -16,11 +16,11 @@ type Config struct {
 	Port               string
 	JwtSecret          string
 	JwtExpiresIn       int
+	IsHeroku		   bool
 }
 
 func init() {
 	viper.SetConfigType("json")
-	viper.AutomaticEnv()
 	viper.SetEnvPrefix("RMMBR")
 }
 
@@ -30,17 +30,22 @@ func bindConfig() {
 	Conf.Port = viper.GetString("Server.Port")
 	Conf.JwtSecret = viper.GetString("Jwt.Secret")
 	Conf.JwtExpiresIn = viper.GetInt("Jwt.Expiration")
+	Conf.IsHeroku = viper.GetBool("IsHeroku")
 }
 
-func LoadConfig(name string) {
+func LoadConfig() {
 
 	viper.AddConfigPath("./config/")
 	viper.SetConfigType("json")
 
-	viper.SetConfigName(name)
+	viper.SetConfigName("config")
+	
+	viper.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 
 	viper.AutomaticEnv()
 
+	viper.BindEnv("Server.Port", "PORT")
+	
 	err := viper.ReadInConfig()
 	if err != nil {
 		if notFoundErr, ok := err.(viper.ConfigFileNotFoundError); ok {
@@ -48,7 +53,7 @@ func LoadConfig(name string) {
 		}
 		panic(err)
 	}
-
+	
 	bindConfig()
 
 }

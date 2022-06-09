@@ -9,12 +9,18 @@
 body {
 }
 
+.table-item-wrapper {
+  max-width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 #logo {
   font-family: 'Short Stack', cursive;
 }
 
 .table-container {
-  max-width: 640px;
 }
 
 .info-container {
@@ -39,6 +45,20 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+}
+
+.url-name {
+  max-width: 640px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  cursor: pointer;
+  font-weight: 200;
+  font-style: italic;
+}
+
+.copyable {
+  cursor: pointer;
 }
 
 .flex {

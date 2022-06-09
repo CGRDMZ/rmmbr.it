@@ -1,6 +1,6 @@
 {{ template "top" }}
 <div class="container">
-    <table class="highlight centered">
+    <table class="highlight centered full-width">
         <thead>
             <tr>
                 <th>Id</th>
@@ -15,22 +15,22 @@
             {{ range . }}
             <tr>
                 <td>
-                    {{ .Id}}
+                    <div class="table-item-wrapper">{{ .Id}}</div>
                 </td>
                 <td>
-                    <a href="{{ .ShortUrl }}" rel="noopener">{{ .ShortUrl }}</a>
+                    <div class="table-item-wrapper"><a href="{{ .ShortUrl }}" rel="noopener">{{ .ShortUrl }}</a></div>
                 </td>
                 <td>
-                    {{ .LongUrl }}
+                    <div class="table-item-wrapper">{{ .LongUrl }}</div>
                 </td>
                 <td>
-                    {{ .VisitedCounter }}
+                    <div class="table-item-wrapper">{{ .VisitedCounter }}</div>
                 </td>
                 <td>
-                    {{ .CreatedAt.Format "Jan 02, 2006" }}
+                    <div class="table-item-wrapper">{{ .CreatedAt.Format "Jan 02, 2006" }}</div>
                 </td>
                 <td>
-                    {{ .UpdatedAt }}
+                    <div class="table-item-wrapper">{{ .UpdatedAt }}</div>
                 </td>
             </tr>
             {{ end }}

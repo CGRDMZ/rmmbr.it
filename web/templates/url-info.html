@@ -5,7 +5,7 @@
             <h1 class="center-align text-huge" id="logo">rmmbr.it</h1>
         </div>
         <div class="info-container deep-purple lighten-2 flex flex-center space-between">
-          <h2>{{.ShortUrl}}</h2>
+          <h2 class="url-name copyable">{{.ShortUrl}}</h2>
           <a href="/{{.ShortUrl}}">
             <div><i class="material-icons" style="color:darkblue">arrow_forward</i></div>
           </a>
@@ -24,16 +24,18 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>{{.Id}}</td>
-                        <td>{{.ShortUrl}}</td>
-                        <td>{{.LongUrl}}</td>
-                        <td>{{.VisitedCounter}}</td>
-                        <td>{{.CreatedAt.Format "Jan 02, 2006" }}</td>
-                        <td>{{.UpdatedAt }}</td>
+                        <td><div class="table-item-wrapper">{{.Id}}</div></td>
+                        <td><div class="table-item-wrapper copyable">{{.ShortUrl}}</div></td>
+                        <td><div class="table-item-wrapper copyable">{{.LongUrl}}</div></td>
+                        <td><div class="table-item-wrapper">{{.VisitedCounter}}</div></td>
+                        <td><div class="table-item-wrapper">{{.CreatedAt.Format "Jan 02, 2006" }}</div></td>
+                        <td><div class="table-item-wrapper">{{.UpdatedAt }}</div></td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<script src="/assets/js/main.js" />
 {{ template "bottom" }}
