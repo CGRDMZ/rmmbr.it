@@ -19,7 +19,7 @@ type Server struct {
 func NewServer() *Server {
 	r := gin.Default()
 
-	if config.Conf.Env == "Prod" {
+	if config.Conf.Env == "PROD" {
 		gin.SetMode(gin.ReleaseMode)
 	}
 

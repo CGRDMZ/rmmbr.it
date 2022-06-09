@@ -45,6 +45,7 @@ func LoadConfig() {
 	viper.AutomaticEnv()
 
 	viper.BindEnv("Server.Port", "PORT")
+	viper.BindEnv("Database.ConnectionString", "DATABASE_URL")
 	
 	err := viper.ReadInConfig()
 	if err != nil {
