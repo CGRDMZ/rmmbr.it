@@ -34,7 +34,7 @@ func NewServer() *Server {
 	return &Server{
 		router: r,
 		driver: &http.Server{
-			Addr: fmt.Sprintf("localhost:%s",config.Conf.Port),
+			Addr: fmt.Sprintf(":%s",config.Conf.Port),
 		},
 	}
 }
