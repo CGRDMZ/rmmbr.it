@@ -65,7 +65,6 @@ func (ss *ShortenerService) GetUrlMapInfo(ctx context.Context, shortUrl string) 
 
 func (ss *ShortenerService) GetUrlMapInfoAndIncrementVisit(ctx context.Context, shortUrl string) (*models.UrlMap, error) {
 	um, _, err := ss.findUrlMapByShortUrl(ctx, shortUrl)
-
 	if err != nil {
 		return nil, err
 	}
