@@ -19,6 +19,9 @@ type Server struct {
 func NewServer() *Server {
 	r := gin.Default()
 
+	r.UseRawPath = true
+	r.UnescapePathValues = false
+
 	if config.Conf.Env == "PROD" {
 		gin.SetMode(gin.ReleaseMode)
 	}

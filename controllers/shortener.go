@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"net/http"
-
+	"net/url"
 	"github.com/CGRDMZ/rmmbrit-api/errors"
 	"github.com/CGRDMZ/rmmbrit-api/services"
 	"github.com/gin-gonic/gin"
@@ -19,6 +19,13 @@ func (sc *ShortenerController) Index(c *gin.Context) {
 func (sc *ShortenerController) RedirectToOriginalUrl(c *gin.Context) {
 
 	id := c.Param("id")
+
+	// decode the short url
+	id, err := url.PathUnescape(id)
+	if err != nil {
+		c.Error(err)
+		return
+	}
 
 	urlMap, err := sc.Ss.GetUrlMapInfoAndIncrementVisit(c.Request.Context(), id)
 	if err != nil {
@@ -41,6 +48,11 @@ func (sc *ShortenerController) GetAllUrlMapInfo(c *gin.Context) {
 		return
 	}
 
+	// encode the url so that it doesn't contain any special characters that reserved for url
+	for _, urlMap := range urlMaps {
+		urlMap.ShortUrl = url.PathEscape(urlMap.ShortUrl)
+	}
+
 	c.HTML(http.StatusOK, "url-list.html", urlMaps)
 }
 
@@ -48,6 +60,13 @@ func (sc *ShortenerController) GetUrlMapInfo(c *gin.Context) {
 	id := c.Param("id")
 	if id == "" {
 		c.AbortWithStatus(http.StatusBadRequest)
+		return
+	}
+
+	// decode the short url
+	id, err := url.PathUnescape(id)
+	if err != nil {
+		c.Error(err)
 		return
 	}
 
@@ -60,6 +79,9 @@ func (sc *ShortenerController) GetUrlMapInfo(c *gin.Context) {
 		c.Error(errors.NotFoundErr("Url Map", string(id)))
 		return
 	}
+
+	// encode the url so that it doesn't contain any special characters that reserved for url
+	urlMap.ShortUrl = url.PathEscape(urlMap.ShortUrl)
 
 	c.HTML(http.StatusOK, "url-info.html", urlMap)
 
@@ -82,6 +104,9 @@ func (sc *ShortenerController) AddNewUrlMap(c *gin.Context) {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
+
+	// encode short url so that it doesn't contain any special characters that reserved for url
+	urlMap.ShortUrl = url.PathEscape(urlMap.ShortUrl)
 
 	c.Redirect(http.StatusFound, "/info/"+urlMap.ShortUrl)
 }

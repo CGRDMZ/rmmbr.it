@@ -51,9 +51,9 @@ func (ss *ShortenerService) CreateNewUrlMap(ctx context.Context, shortUrl, longU
 	}
 	// -------------------------------------------
 
-	um, _, err2 := ss.findUrlMapByShortUrl(ctx, shortUrl)
+	um, _, err := ss.findUrlMapByShortUrl(ctx, shortUrl)
 
-	return um, err2
+	return um, err
 
 }
 
