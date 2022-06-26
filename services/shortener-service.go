@@ -2,11 +2,15 @@ package services
 
 import (
 	"context"
+	"errors"
 	"fmt"
+	"log"
 	"net/url"
 	"strings"
 
 	"github.com/CGRDMZ/rmmbrit-api/models"
+	"github.com/CGRDMZ/rmmbrit-api/sherrors"
+	"github.com/jackc/pgconn"
 	"github.com/jackc/pgx/v4"
 	"github.com/jackc/pgx/v4/pgxpool"
 	gonanoid "github.com/matoous/go-nanoid/v2"
@@ -18,6 +22,7 @@ type ShortenerService struct {
 
 func (ss *ShortenerService) CreateNewUrlMap(ctx context.Context, shortUrl, longUrl string) (*models.UrlMap, error) {
 	var err error
+
 	// if no short url is provided, generate one
 	if strings.Trim(shortUrl, " ") == "" {
 		s, err := gonanoid.New()
@@ -31,7 +36,8 @@ func (ss *ShortenerService) CreateNewUrlMap(ctx context.Context, shortUrl, longU
 	longUrl = strings.Trim(longUrl, " ")
 	_, err = url.ParseRequestURI(longUrl)
 	if err != nil {
-		return nil, fmt.Errorf("something happened while parsing the long url: %w", err)
+		log.Println("Inner error: ", err)
+		return nil, ErrInvalidUrlFormat(&err)
 	}
 
 	// TODO: refactor this to a repository ------
@@ -42,6 +48,13 @@ func (ss *ShortenerService) CreateNewUrlMap(ctx context.Context, shortUrl, longU
 
 	_, err = tx.Exec(context.Background(), "INSERT INTO url_map (long_url, short_url) VALUES ($1, $2)", longUrl, shortUrl)
 	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) {
+			if pgErr.Code == "23505" {
+				return nil, sherrors.AlreadyExistsErr("Url Map")
+			}
+			return nil, sherrors.InternalError(pgErr)
+		}
 		return nil, fmt.Errorf("something happened while creating a new 'url map': %w", err)
 	}
 

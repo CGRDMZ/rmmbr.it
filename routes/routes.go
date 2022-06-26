@@ -25,9 +25,9 @@ func RegisterRoutes(router *gin.Engine) {
 
 	router.Use(middlewares.ErrorHandler)
 
-	uc := cf.CreateUserController()
-	router.POST("/signup", uc.CreateUser)
-	router.POST("/login", uc.Login)
+	// uc := cf.CreateUserController()
+	// router.POST("/signup", uc.CreateUser)
+	// router.POST("/login", uc.Login)
 	
 	// Url shortener endpoints
 	sc := cf.CreateShortenerController()
