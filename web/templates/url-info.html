@@ -2,13 +2,15 @@
 <div class="flex flex-center full-width full-height">
     <div>
         <div class="">
-            <h1 class="center-align text-huge" id="logo">rmmbr.it</h1>
+            <a href="/">
+                <h1 class="center-align text-huge black-text" id="logo">rmmbr.it</h1>
+            </a>
         </div>
         <div class="info-container deep-purple lighten-2 flex flex-center space-between">
-          <h2 class="url-name copyable-url">{{.ShortUrl}}</h2>
-          <a href="/{{.ShortUrl}}">
-            <div><i class="material-icons" style="color:darkblue">arrow_forward</i></div>
-          </a>
+            <h2 class="url-name copyable-url">{{.ShortUrl}}</h2>
+            <a href="/{{.ShortUrl}}">
+                <div><i class="material-icons" style="color:darkblue">arrow_forward</i></div>
+            </a>
         </div>
         <div class="table-container">
             <table class="full-width centered">
@@ -24,12 +26,24 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td><div class="table-item-wrapper">{{.Id}}</div></td>
-                        <td><div class="table-item-wrapper copyable">{{.ShortUrl}}</div></td>
-                        <td><div class="table-item-wrapper copyable">{{.LongUrl}}</div></td>
-                        <td><div class="table-item-wrapper">{{.VisitedCounter}}</div></td>
-                        <td><div class="table-item-wrapper">{{.CreatedAt.Format "Jan 02, 2006" }}</div></td>
-                        <td><div class="table-item-wrapper">{{.UpdatedAt }}</div></td>
+                        <td>
+                            <div class="table-item-wrapper">{{.Id}}</div>
+                        </td>
+                        <td>
+                            <div class="table-item-wrapper copyable">{{.ShortUrl}}</div>
+                        </td>
+                        <td>
+                            <div class="table-item-wrapper copyable">{{.LongUrl}}</div>
+                        </td>
+                        <td>
+                            <div class="table-item-wrapper">{{.VisitedCounter}}</div>
+                        </td>
+                        <td>
+                            <div class="table-item-wrapper">{{.CreatedAt.Format "Jan 02, 2006" }}</div>
+                        </td>
+                        <td>
+                            <div class="table-item-wrapper">{{.UpdatedAt }}</div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
