@@ -3,7 +3,7 @@ package controllers
 import (
 	"net/http"
 	"net/url"
-	"github.com/CGRDMZ/rmmbrit-api/errors"
+	"github.com/CGRDMZ/rmmbrit-api/sherrors"
 	"github.com/CGRDMZ/rmmbrit-api/services"
 	"github.com/gin-gonic/gin"
 )
@@ -33,7 +33,7 @@ func (sc *ShortenerController) RedirectToOriginalUrl(c *gin.Context) {
 		return
 	}
 	if urlMap == nil {
-		c.AbortWithError(http.StatusNotFound, errors.NotFoundErr("Url Map", string(id)))
+		c.AbortWithError(http.StatusNotFound, sherrors.NotFoundErr("Url Map", string(id)))
 		return
 	}
 
@@ -76,7 +76,7 @@ func (sc *ShortenerController) GetUrlMapInfo(c *gin.Context) {
 		return
 	}
 	if urlMap == nil {
-		c.Error(errors.NotFoundErr("Url Map", string(id)))
+		c.Error(sherrors.NotFoundErr("Url Map", string(id)))
 		return
 	}
 
@@ -101,7 +101,7 @@ func (sc *ShortenerController) AddNewUrlMap(c *gin.Context) {
 	}
 	urlMap, err := sc.Ss.CreateNewUrlMap(c.Request.Context(), rb.ShortUrl, rb.LongUrl)
 	if err != nil {
-		c.AbortWithError(http.StatusInternalServerError, err)
+		c.Error(err)
 		return
 	}
 

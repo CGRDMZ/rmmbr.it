@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/CGRDMZ/rmmbrit-api/errors"
+	"github.com/CGRDMZ/rmmbrit-api/sherrors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,19 +17,18 @@ func ErrorHandler(c *gin.Context) {
 
 	var err = c.Errors[0]
 
-	if ce, ok := err.Err.(*errors.CustomError); ok {
+	ce := sherrors.HandleError(err.Err)
 
-		if ce.StatusCode == http.StatusNotFound {
-			c.HTML(http.StatusNotFound, "not-found.html", gin.H{})
-			log.Print("hello")
-			return
-		}
-
-		c.JSON(ce.StatusCode, ce)
+	if ce.StatusCode == http.StatusNotFound {
+		c.HTML(http.StatusNotFound, "not-found.html", gin.H{})
 		return
 	}
 
-	errInternal := errors.NewCustomError("Something unexpected happened. Hmm...", err.Error(), 500, nil)
-	c.JSON(500, errInternal)
+	if ce.StatusCode == http.StatusInternalServerError {
+		c.HTML(http.StatusInternalServerError, "internal.html", gin.H{"error": ce})
+		return
+	}
 
+	log.Println(ce)
+	c.JSON(ce.StatusCode, ce)
 }
