@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"time"
-
 	"github.com/CGRDMZ/rmmbrit-api/config"
 	"github.com/golang-jwt/jwt/v4"
 )

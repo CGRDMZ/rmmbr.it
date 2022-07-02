@@ -25,6 +25,11 @@ func RegisterRoutes(router *gin.Engine) {
 
 	router.Use(middlewares.ErrorHandler)
 
+
+	oac := cf.CreateOAuthController()
+	router.GET("/oauth/google/login", oac.RedirectToExternalLogin)
+	router.GET("/callback", oac.HandleCallback)
+
 	// uc := cf.CreateUserController()
 	// router.POST("/signup", uc.CreateUser)
 	// router.POST("/login", uc.Login)

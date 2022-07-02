@@ -32,3 +32,7 @@ func (cf *ControllerFactory) CreateUserController() *UserController {
 		},
 	}
 }
+
+func (cf *ControllerFactory) CreateOAuthController() *OAuthController {
+	return &OAuthController{}
+}
