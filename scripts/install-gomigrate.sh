@@ -1,6 +1,7 @@
-if ! command -v migrate &>/dev/null; then
-    go get -u -d github.com/golang-migrate/migrate/cmd/migrate
-    cd $GOPATH/src/github.com/golang-migrate/migrate/cmd/migrate
-    git checkout v4.15.2
-    go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2
-fi
+set -e
+
+wget -O /tmp/migrate.linux-amd64.tar.gz https://github.com/golang-migrate/migrate/releases/download/v4.14.1/migrate.linux-amd64.tar.gz &&
+tar -xvf /tmp/migrate.linux-amd64.tar.gz -C /tmp
+
+mkdir -p $HOME/bin/
+cp /tmp/migrate.linux-amd64 $HOME/bin/migrate

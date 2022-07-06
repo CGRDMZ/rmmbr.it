@@ -1,11 +1,9 @@
 package controllers
 
 import (
-	"encoding/json"
 	"errors"
 	"fmt"
 	"net/http"
-	"net/url"
 	"github.com/CGRDMZ/rmmbrit-api/config"
 	"github.com/CGRDMZ/rmmbrit-api/sherrors"
 	"github.com/gin-gonic/gin"
@@ -37,38 +35,7 @@ func (oc *OAuthController) HandleCallback(c *gin.Context) {
 		return
 	}
 
-	reqBody := url.Values{}
-	reqBody.Set("code", code)
-	reqBody.Set("client_id", config.Conf.OAuth["google"].ClientId)
-	reqBody.Set("client_secret", config.Conf.OAuth["google"].ClientSecret)
-	reqBody.Set("grant_type", "authorization_code")
-	reqBody.Set("redirect_uri", "http://localhost:3000/callback")
+	
 
-	r, err := http.PostForm(GoogleTokenEndpoint, reqBody)
-	if err != nil {
-		c.Error(err)
-		return
-	}
-	if r.StatusCode != 200 {
-		c.Error(fmt.Errorf("error while acquiring the token from google token endpoint"))
-	}
-
-	type ExchangeResponse struct {
-		AccessToken string `json:"access_token"`
-		ExpiresIn   int    `json:"expires_in"`
-		Scope       string `json:"scope"`
-		TokenType   string `json:"token_type"`
-		IdToken     string `json:"id_token"`
-	}
-	var res ExchangeResponse
-	json.NewDecoder(r.Body).Decode(&res)
-	if err != nil {
-		c.Error(err)
-		return
-	}
-	defer r.Body.Close()
-
-	fmt.Println(res)
-
-	c.JSON(200, res)
+	c.JSON(200, nil)
 }

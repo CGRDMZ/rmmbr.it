@@ -1,29 +1,32 @@
 package auth
 
 import (
+	"errors"
 	"fmt"
 	"log"
+	"strings"
 	"time"
+
 	"github.com/CGRDMZ/rmmbrit-api/config"
 	"github.com/golang-jwt/jwt/v4"
 )
 
 type JwtPayload struct {
-	UserId uint `json:"uid,omitempty"`
 	jwt.RegisteredClaims
 }
 
+
 type JwtService struct{}
 
-func (*JwtService) GenerateToken(id uint) (string, error) {
+func (*JwtService) GenerateIdToken(id uint) (string, error) {
 
 	now := time.Now()
 
 	expAt := now.Add(time.Second * time.Duration(config.Conf.JwtExpiresIn))
 
 	payload := JwtPayload{
-		id,
 		jwt.RegisteredClaims{
+			Subject: fmt.Sprint(id),
 			ExpiresAt: jwt.NewNumericDate(expAt),
 			IssuedAt:  jwt.NewNumericDate(now),
 		},
@@ -37,4 +40,25 @@ func (*JwtService) GenerateToken(id uint) (string, error) {
 	}
 
 	return signedString, nil
+}
+
+func (*JwtService) ParseIdToken(token string) (*JwtPayload, error) {
+	if strings.Trim(token, " ") == "" {
+		return nil, errors.New("the id token cannot be empty")
+	}
+
+	t, err := jwt.NewParser().ParseWithClaims(token, &JwtPayload{}, func(t *jwt.Token) (interface{}, error) { return config.Conf.JwtSecret, nil})
+	if err != nil {
+		return nil, err
+	}
+
+	if !t.Valid {
+		return nil, errors.New("The provided token is not a valid token.")
+	}
+
+	if claims, ok :=t.Claims.(*JwtPayload); ok {
+		return claims, nil
+	} else {
+		return nil, errors.New("invalid jwt token")
+	}
 }

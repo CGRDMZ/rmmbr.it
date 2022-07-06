@@ -1,0 +1,8 @@
+BEGIN;
+
+ALTER TABLE url_map
+    DROP COLUMN user_id;
+
+ALTER TABLE users
+    ADD password VARCHAR(100) NOT NULL;
+COMMIT;

@@ -10,8 +10,7 @@ migrate-down:
 	@migrate -database "postgres://postgres:postgres@localhost:5432/rmmbrit?sslmode=disable" -path db/migrations down
 
 create-migration:
-	@test -n "$(mig-name)" || (echo ">> migration name is not set Eg: 'make mig-name=something-something create-migration'" ; exit 1)
-	@migrate create -ext sql -dir db/migrations -seq $(mig-name)
+	@scripts/create-migration.sh
 
 install-deps:
 	./scripts/install-gomigrate.sh

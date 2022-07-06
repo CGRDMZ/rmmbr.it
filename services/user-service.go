@@ -3,8 +3,6 @@ package services
 import (
 	"context"
 	"fmt"
-
-	"github.com/CGRDMZ/rmmbrit-api/auth"
 	"github.com/CGRDMZ/rmmbrit-api/models"
 	"github.com/jackc/pgx/v4/pgxpool"
 )
@@ -17,7 +15,6 @@ type UserService struct {
 type CreateUserParams struct {
 	Username string
 	Email string
-	Password string
 } 
 
 func (us *UserService) CreateUser(ctx context.Context, params CreateUserParams) (*models.User, error) {
@@ -27,9 +24,8 @@ func (us *UserService) CreateUser(ctx context.Context, params CreateUserParams) 
 		return nil, fmt.Errorf("something wrong happened while beginning transaction: %w", err)
 	}
 
-	params.Password = auth.GenerateHashFrom(params.Password)
 
-	_, err = tx.Exec(context.Background(), "INSERT INTO users (username, email, password) VALUES ($1, $2, $3)", params.Username, params.Email, params.Password)
+	_, err = tx.Exec(context.Background(), "INSERT INTO users (username, email) VALUES ($1, $2)", params.Username, params.Email)
 	if err != nil {
 		return nil, fmt.Errorf("something happened while creating a new 'user': %w", err)
 	}
