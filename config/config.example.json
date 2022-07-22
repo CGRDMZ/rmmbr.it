@@ -1,0 +1,20 @@
+{
+    "Environment": "DEV",
+    "Database": {
+        "ConnectionString": ""
+    },
+    "Server": {
+        "Port": "3000"
+    },
+    "Jwt": {
+        "Secret": "secret",
+        "Expiration": 100
+    },
+    "OAuth": {
+        "Google": {
+            "ClientId": "",
+            "ClientSecret": ""
+        }
+    },
+    "IsHeroku": false
+}
